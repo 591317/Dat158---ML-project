@@ -1,0 +1,52 @@
+# Oblig 1 AL- Codeing DAT158
+
+def last_occurrence_function(pattern):
+    last = {}
+    for index, char in enumerate(pattern):
+        last[char] = index
+    return last
+
+def BMMatch(T, P):
+    n = len(T)
+    m = len(P)
+    
+    # Compute the last occurrence function
+    last = last_occurrence_function(P)
+    
+    i = m - 1
+    j = m - 1
+    comparisons = 0
+    
+    while i < n:
+        comparisons += 1  # Increment comparison count
+        
+        if P[j] == T[i]:
+            if j == 0:
+                return i, comparisons  # Match found, return the start index and comparison count
+            else:
+                i -= 1
+                j -= 1
+        else:
+            # Jump step
+            i += m - min(j, 1 + last.get(T[i], -1))
+            j = m - 1
+    
+    
+    return -1, comparisons  # No match found, return -1 and comparison count
+    
+    #return "There is no substring of T matching P"
+
+# Example usage with Norwegian text:
+text = "Dette er en enkel tekst for å demonstrere Boyer-Moore algoritmen."
+pattern = "algor"
+
+# Run the Boyer-Moore algorithm
+index, comparison_count = BMMatch(text, pattern)
+
+# Print results
+print(f"Pattern found at index: {index}" if index != -1 else "There is no substring of T matching P")
+print(f"Total comparisons made: {comparison_count}")
+
+# Calculate average comparisons per text character
+average_comparisons = comparison_count / len(text)
+print(f"Average comparisons per text character: {average_comparisons:.2f}")
