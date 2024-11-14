@@ -1,14 +1,46 @@
 import gradio as gr
 
-def greet(name, is_morning, temperature):
+def greet(name, is_morning, temperature, car_model):
     salutation = "Good morning" if is_morning else "Good evening"
     greeting = f"{salutation} {name}. It is {temperature} degrees today"
     celsius = (temperature - 32) * 5 / 9
     return greeting, round(celsius, 2)
 
+# Create the Dropdown components
+dropdown_brand = gr.Dropdown(choices=["Audi", "BMW", "Ford", "Mercedes-Benz", "Chevrolet", "Porsche", 
+                                      "Toyota", "Lexus", "Jeep","Cadillac", "RAM", "Nissan", 
+                                      "Tesla", "INFINITI", "GMC","Dodge", "Mazda", "Kia", 
+                                      "Lincoln", "Subaru", "Acura","Honda", "Hyundai", "Volkswagen", 
+                                      "Jaguar", "Bentley", "MINI","Genesis","Buick", "Maserati", 
+                                      "Lamborghini", "Chrysler", "Volvo", "Alfa", "Rivian","Rolls-Royce", 
+                                      "Mitsubishi", "Pontiac", "Hummer", "Other"], label="Select a Brand")
+
+dropdown_color = gr.Dropdown(choices=["Black", "White", "Gray", "Silver", "Blue", "Red", 
+                                "Green", "Gold", "Brown", "Orange", "Beige", "Other"], label="Select a Color")
+
+dropdown_transmission = gr.Dropdown(choices=["A/T", "8-Speed A/T", "Transmission w/Dual Shift Mode", "6-Speed A/T",
+    "6-Speed M/T", "7-Speed A/T", "Automatic", "8-Speed Automatic",
+    "10-Speed A/T", "9-Speed A/T", "5-Speed A/T", "10-Speed Automatic",
+    "6-Speed Automatic", "4-Speed A/T", "5-Speed M/T", "9-Speed Automatic",
+    "CVT Transmission", "1-Speed A/T", "M/T",
+    "7-Speed Automatic with Auto-Shift", "Other"], label="Select a Transmission")
+
+dropdown_modelName = gr.Dropdown(choices=["F-150 XLT", "M3 Base", "Camaro 2SS", "M4 Base", "Mustang GT Premium",
+"F-150 Lariat", "E-Class E 350 4MATIC", "1500 Laramie", "911 Carrera S",
+"Corvette Base", "E-Class E 350", "GX 460 Base", "911 Carrera",
+"Explorer XLT", "Corvette Stingray w/2LT",
+"Rover Range Rover Sport HSE", "Wrangler Sport", "Other"], label="Select a Model name")
+
+
+# Create additional inputs
+name_input = gr.Textbox(label="Name")
+is_morning_input = gr.Checkbox(label="Is it morning?")
+temperature_input = gr.Slider(minimum=0, maximum=100, label="Temperature (F)")
+    
+
 demo = gr.Interface(
     fn=greet,
-    inputs=["text", "checkbox", gr.Slider(0, 100)],
-    outputs=["text", "number"],
+    inputs=[dropdown_brand, dropdown_color, dropdown_transmission, dropdown_modelName],
+    outputs=["text"],
 )
 demo.launch()
